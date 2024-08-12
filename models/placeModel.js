@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const placeSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['Cultures', 'Restaurants', 'Hotels', 'Playground and Green Places', 'Castles'],
+        enum: ['Cultures', 'Playground and Green Places', 'Castles'],
         required: true
     },
     name: {
@@ -12,22 +12,20 @@ const placeSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        city: {
+       
             type: String,
             required: true
         },
-        region: String,
         country: {
             type: String,
             default: 'Lebanon'
-        }
-    },
+        },
     description: String,
     website: String,
-    contact: {
-        phone: String,
-        email: String
-    },
+    
+    phone: String,
+    email: String,
+    
     coordinates: {
         latitude: Number,
         longitude: Number
@@ -38,17 +36,11 @@ const placeSchema = new mongoose.Schema({
     },
     facilities: [String],
     rating: Number,
-    reviews: [{
-        user: String,
-        rating: Number,
-        comment: String,
-        date: {
-            type: Date,
-            default: Date.now
-        }
-    }],
     photos: [String],
-    tags: [String],
+    price_range: {
+        min: Number,
+        max: Number
+    },
     createdAt: {
         type: Date,
         default: Date.now

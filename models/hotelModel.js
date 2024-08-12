@@ -1,4 +1,3 @@
-// models/Hotel.js
 const mongoose = require("mongoose");
 
 const HotelSchema = new mongoose.Schema({
@@ -6,13 +5,17 @@ const HotelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: String,
+  description: {
+    type: String,
+    required: true,  // This needs to be within the object
+  },
   rating: {
     type: Number,
     min: 1,
     max: 5,
+    required: true,
   },
-  location: {
+ location: {
     type: {
       type: String,
       enum: ["Point"],
@@ -20,15 +23,69 @@ const HotelSchema = new mongoose.Schema({
     },
     coordinates: {
       type: [Number],
-      required: true,
+      //required: true, // This is needed to avoid the previous validation error
     },
   },
   touristArea: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "TouristArea",
-    required: true,
+    required: true,  // Assuming this is required, you can remove it if not
   },
-});
+  contact: {
+    phone: {
+      type: String,
+    },
+    email: {
+      type: String,
+    },
+    website: {
+      type: String,
+    },
+  },
+  images: {
+    type: [String],
+  },
+  priceRange: {
+    minPrice: {
+      type: Number,
+    },
+    maxPrice: {
+      type: Number,
+    },
+  },
+  facilities: [String],
+  openingHours: {
+    monday: {
+      open: String,
+      close: String,
+    },
+    tuesday: {
+      open: String,
+      close: String,
+    },
+    wednesday: {
+      open: String,
+      close: String,
+    },
+    thursday: {
+      open: String,
+      close: String,
+    },
+    friday: {
+      open: String,
+      close: String,
+    },
+    saturday: {
+      open: String,
+      close: String,
+    },
+    sunday: {
+      open: String,
+      close: String,
+    },
+  },
+
+}, { timestamps: true });
 
 HotelSchema.index({ location: "2dsphere" });
 
