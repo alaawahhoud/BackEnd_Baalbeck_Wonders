@@ -10,7 +10,7 @@ router.post('/register', adminController.registerAdmin);
 router.post('/login', adminController.loginAdmin);
 
 // GET route to test login status (Accessible by logged-in users)
-router.get('/test', auth.isLogin, (req, res) => res.json("Login successful"));
+//router.get('/test', auth.isAdmin, (req, res) => res.json("Login successful"));
 
 // PUT update admin details (Accessible only by the logged-in admin)
 router.put('/update/:id', auth.isAdmin, adminController.updateAdmin);

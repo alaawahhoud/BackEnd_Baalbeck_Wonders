@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const User = require('../models/userModel.js');
+const adminModel = require('../models/adminModel');
+
 
 const initIsLogin = async (req, res, next) => {
     const token = req.header('x-auth-token');
@@ -14,7 +15,7 @@ const initIsLogin = async (req, res, next) => {
         console.log(decoded);
 
         // Find the user by ID
-        const user = await User.findOne({ _id: new mongoose.Types.ObjectId(decoded.id) }, 'email role');
+        const user = await adminModel.findOne({ _id:decoded.id});
         console.log({user});
 
         if (!user) {
