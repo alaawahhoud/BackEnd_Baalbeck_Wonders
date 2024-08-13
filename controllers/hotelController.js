@@ -1,64 +1,61 @@
-const Hotel = require("../models/hotelModel");
-
-// Get all hotels
-exports.getAllHotels = async (req, res) => {
-  try {
-    const hotels = await Hotel.find().populate("touristArea");
-    res.status(200).json(hotels);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Get a single hotel by ID
-exports.getHotelById = async (req, res) => {
-  try {
-    const hotel = await Hotel.findById(req.params.id).populate("touristArea");
-    if (!hotel) {
-      return res.status(404).json({ error: "Hotel not found" });
-    }
-    res.status(200).json(hotel);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+const Hotel = require('../models/hotelModel');
 
 // Create a new hotel
 exports.createHotel = async (req, res) => {
   try {
-    const hotel = new Hotel(req.body);
-    await hotel.save();
-    res.status(201).json(hotel);
+    const newHotel = new Hotel(req.body);
+    const savedHotel = await newHotel.save();
+    res.status(201).json(savedHotel);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
-// Update a hotel
-exports.updateHotel = async (req, res) => {
+// Get all hotels
+exports.getAllHotels = async (req, res) => {
   try {
-    const hotel = await Hotel.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const hotels = await Hotel.find();
+    res.status(200).json(hotels);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Get a hotel by ID
+exports.getHotelById = async (req, res) => {
+  try {
+    const hotel = await Hotel.findById(req.params.id);
     if (!hotel) {
-      return res.status(404).json({ error: "Hotel not found" });
+      return res.status(404).json({ message: "Hotel not found" });
     }
     res.status(200).json(hotel);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
-// Delete a hotel
-exports.deleteHotel = async (req, res) => {
+// Update a hotel by ID
+exports.updateHotelById = async (req, res) => {
   try {
-    const hotel = await Hotel.findByIdAndDelete(req.params.id);
-    if (!hotel) {
-      return res.status(404).json({ error: "Hotel not found" });
+    const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedHotel) {
+      return res.status(404).json({ message: "Hotel not found" });
+    }
+    res.status(200).json(updatedHotel);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Delete a hotel by ID
+exports.deleteHotelById = async (req, res) => {
+  try {
+    const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
+    if (!deletedHotel) {
+      return res.status(404).json({ message: "Hotel not found" });
     }
     res.status(200).json({ message: "Hotel deleted" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };

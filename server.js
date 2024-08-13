@@ -1,32 +1,39 @@
 const express = require("express");
-const connectDB = require("./db");
+const cors = require("cors");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
-const adminRoutes = require("./routes/adminRoutes");
+// Import routes
 const hotelRoutes = require("./routes/hotelRoutes");
 const placeRoutes = require("./routes/placeRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
-const userRoutes = require("./routes/userRoutes");
 
-const PORT = process.env.PORT || 3000;
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(express.urlencoded({ extended: true }));
+// Middleware
+app.use(cors());
+app.use(express.json()); // For parsing application/json
 
-connectDB();
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("Failed to connect to MongoDB", err));
 
-// Define a basic route
+// Routes
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/places", placeRoutes);
+app.use("/api/restaurants", restaurantRoutes);
+
+// Test route
 app.get("/", (req, res) => {
-  res.send("Hello, world!");
+  res.send("API is running...");
 });
 
-app.use("/admin", adminRoutes);
-app.use("/hotels", hotelRoutes);
-app.use("/places", placeRoutes);
-app.use("/restaurants", restaurantRoutes);
-app.use("/users", userRoutes);
-
-// Start the server
+// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

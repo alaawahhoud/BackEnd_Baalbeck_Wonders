@@ -1,35 +1,15 @@
-// models/Hotel.js
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const HotelSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  description: String,
-  rating: {
-    type: Number,
-    min: 1,
-    max: 5,
-  },
+const hotelSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
   location: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true,
-    },
-    coordinates: {
-      type: [Number],
-      required: true,
-    },
+    type: { type: String, enum: ['Point'], required: true },
+    coordinates: { type: [Number], required: true },
   },
-  touristArea: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "TouristArea",
-    required: true,
-  },
+  rating: { type: Number, min: 0, max: 5, required: true },
 });
 
-HotelSchema.index({ location: "2dsphere" });
+hotelSchema.index({ location: '2dsphere' }); // Geospatial index for location
 
-module.exports = mongoose.model("Hotel", HotelSchema);
+module.exports = mongoose.model('Hotel', hotelSchema);
