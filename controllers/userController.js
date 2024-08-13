@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 // POST /api/register
 exports.register = async (req, res) => {
-    const { username, password, email } = req.body;
+    const { username, password, email, fullname, accountstatus } = req.body;
 
     try {
         // Check if user already exists
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user
-        user = new User({ username, password: hashedPassword, email });
+        user = new User({ username, password: hashedPassword, email,fullname , accountstatus,});
 
         // Save user
         await user.save();
@@ -47,6 +47,7 @@ exports.login = async (req, res) => {
 
         // Generate JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.header('x-auth-token', token).send({ token });
 
         res.json({ token });
     } catch (err) {
