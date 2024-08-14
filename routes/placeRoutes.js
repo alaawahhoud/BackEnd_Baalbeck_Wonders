@@ -3,7 +3,7 @@ const router = express.Router();
 const placeController  = require('../controllers/placeController');
 
 // GET all tourist spots
-router.post('/create', placeController.createPlace);
+router.post('/', placeController.createPlace);
 
 // Get all places
 router.get('/', placeController.getPlaces);
@@ -12,10 +12,10 @@ router.get('/', placeController.getPlaces);
 router.get('/:id', placeController.getPlaceById);
 
 // Update a place by ID
-router.put('/update/:id', placeController.updatePlaceById);
+router.put('/:id', placeController.updatePlaceById);
 
 // Delete a place by ID
-router.delete('/delete/:id', placeController.deletePlaceById);
+router.delete('/:id', placeController.deletePlaceById);
 
 module.exports = router;
 

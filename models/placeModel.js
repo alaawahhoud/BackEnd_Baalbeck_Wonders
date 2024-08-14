@@ -5,31 +5,31 @@ const placeSchema = new mongoose.Schema({
     type: {
         type: String,
         enum: ['Cultures', 'Playground and Green Places', 'Castles'],
-        required: true
+        
     },
     name: {
         type: String,
         required: true
     },
     location: {
-       
+        type: {
             type: String,
+            enum: ['Point'], 
             required: true
         },
-        country: {
-            type: String,
-            default: 'Lebanon'
-        },
+        coordinates: {
+            type: [Number], 
+            required: true
+        }
+    },
+    country: {
+        type: String,
+        default: 'Lebanon'
+    },
     description: String,
     website: String,
-    
     phone: String,
     email: String,
-    
-    coordinates: {
-        latitude: Number,
-        longitude: Number
-    },
     opening_hours: {
         open: String,
         close: String
