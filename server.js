@@ -2,11 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const messageRoutes = require('./routes/messagesRoutes');
 
 // Import routes
 const hotelRoutes = require("./routes/hotelRoutes");
 const placeRoutes = require("./routes/placeRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,7 +29,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/places", placeRoutes);
 app.use("/api/restaurants", restaurantRoutes);
-
+app.use("/api/users", userRoutes); // Use user routes
+app.use('/api/messages', messageRoutes);
 // Test route
 app.get("/", (req, res) => {
   res.send("API is running...");

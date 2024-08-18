@@ -10,47 +10,29 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8,
-       // match: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
-    
     },
     email: {
         type: String,
-        unique: [true,"Please provide an Email! "],
-        required: [true," Email Exist"],
+        unique: true,
+        required: true,
         match: /.+\@.+\..+/,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    fullname: {
-        type: String,
-      },
-      accountstatus: {
+    fullname: String,
+    accountstatus: {
         type: String,
         enum: ['active', 'suspended'],
         default: 'active'
-      },
-      emailVerified: {
+    },
+    emailVerified: {
         type: Boolean,
         default: false
-      },
-      createdAt: {
-        type: Date,
-        default: Date.now
-      },
-      updatedAt: {
-        type: Date,
-        default: Date.now
-      },
-
-      role: {
+    },
+    role: {
         type: String,
         enum: ['user', 'admin'],
-        required: true,
+        
     },
-      
-});
+}, { timestamps: true }); // Automatically adds createdAt and updatedAt fields
 
 const User = mongoose.model('User', userSchema);
 
